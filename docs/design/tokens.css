@@ -1,0 +1,243 @@
+/* =====================================================================
+   CardioLens — Design Tokens (CSS custom properties)
+   Single source of truth for the website's visual language.
+   ---------------------------------------------------------------------
+   Identity: a calibrated *lens* on frozen research data — a research-lab
+   case study, not a hospital tool and not a toy. Off-white/ink editorial
+   base, deep navy-indigo primary, one muted-teal accent, amber + coral
+   reserved for the score-gauge scale (magnitude only — never a verdict).
+
+   Mirrored 1:1 by tokens.ts. If you change a value here, change it there.
+   Light is the default (:root). Dark applies via the OS preference AND a
+   manual [data-theme="dark"] override (toggle wins over the OS).
+   ===================================================================== */
+
+:root {
+  /* ---- Brand palette — RAW values (do not theme these directly) ----- */
+  /* Light surfaces & ink */
+  --c-base:        #FAFAF7; /* page background — warm off-white, never hospital-white */
+  --c-surface:     #FFFFFF; /* cards, raised panels */
+  --c-subtle:      #F2F1EC; /* inset wells, code blocks, hover fills */
+  --c-hairline:    #E4E2DA; /* 1px rules, card borders */
+  --c-ink:         #16181D; /* primary text */
+  --c-muted:       #5B6068; /* secondary text, captions (AA on base) */
+  --c-primary:     #1E2A44; /* deep navy-indigo — primary actions, headings accents */
+  --c-primary-hover: #2A3A5C;
+  --c-teal:        #2F8F83; /* accent — gauge low end, icons, borders (non-text) */
+  --c-teal-text:   #277A6F; /* AA-safe teal for TEXT/links on white */
+  --c-amber:       #C98A3B; /* gauge mid only — non-text */
+  --c-coral:       #C2614E; /* gauge high only — calm, NOT alarm red — non-text */
+  --c-error:       #B4452F; /* form validation only, always paired with icon + text */
+
+  /* ---- Semantic aliases (USE THESE in components) ------------------- */
+  --bg:            var(--c-base);
+  --bg-surface:    var(--c-surface);
+  --bg-subtle:     var(--c-subtle);
+  --border:        var(--c-hairline);
+  --border-strong: #D5D3C9;
+  --text:          var(--c-ink);
+  --text-muted:    var(--c-muted);
+  --text-onprimary:#FAFAF7;       /* text on navy fills */
+  --accent:        var(--c-teal);
+  --accent-text:   var(--c-teal-text);
+  --primary:       var(--c-primary);
+  --primary-hover: var(--c-primary-hover);
+  --focus-ring:    #3E63B8;       /* keyboard focus — ≥3:1 on every bg it lands on */
+  --danger-text:   var(--c-error);
+
+  /* Score-gauge scale — encodes MODEL-SCORE MAGNITUDE ONLY. */
+  --gauge-low:     var(--c-teal);   /* low magnitude */
+  --gauge-mid:     var(--c-amber);  /* mid magnitude */
+  --gauge-high:    var(--c-coral);  /* high magnitude — calm, not a danger signal */
+  --gauge-track:   var(--c-hairline);
+
+  /* ---- Typography -------------------------------------------------- */
+  /* Google Fonts only. Display = editorial scientific serif (used large,
+     sparingly). Body = humanist grotesque (legible, warm-neutral).
+     Mono = instrument readout: metrics, axis numbers, eyebrows. */
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body:    "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
+
+  /* Modular scale ~1.20 (minor third), tuned per step for editorial feel */
+  --text-2xs:  0.6875rem; /* 11px — micro labels, tick numbers */
+  --text-xs:   0.75rem;   /* 12px — captions, eyebrows */
+  --text-sm:   0.875rem;  /* 14px — secondary UI */
+  --text-base: 1rem;      /* 16px — body */
+  --text-lg:   1.1875rem; /* 19px — lead paragraphs */
+  --text-xl:   1.5rem;    /* 24px — H4 / card titles */
+  --text-2xl:  1.9375rem; /* 31px — H3 */
+  --text-3xl:  2.5rem;    /* 40px — H2 */
+  --text-4xl:  3.25rem;   /* 52px — H1 */
+  --text-5xl:  4.25rem;   /* 68px — hero display */
+
+  --leading-tight:   1.08; /* display headlines */
+  --leading-snug:    1.22; /* sub-headlines */
+  --leading-normal:  1.55; /* UI text */
+  --leading-relaxed: 1.7;  /* long-form body */
+
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  --tracking-tight:  -0.02em; /* large display */
+  --tracking-normal: 0;
+  --tracking-wide:   0.02em;
+  --tracking-eyebrow: 0.14em; /* mono uppercase eyebrows / measurement labels */
+
+  /* ---- Spacing scale (4px base; 8px rhythm) ------------------------ */
+  --space-0:  0;
+  --space-1:  0.25rem;  /* 4 */
+  --space-2:  0.5rem;   /* 8 */
+  --space-3:  0.75rem;  /* 12 */
+  --space-4:  1rem;     /* 16 */
+  --space-5:  1.5rem;   /* 24 */
+  --space-6:  2rem;     /* 32 */
+  --space-7:  3rem;     /* 48 */
+  --space-8:  4rem;     /* 64 */
+  --space-9:  6rem;     /* 96 */
+  --space-10: 8rem;     /* 128 — section gaps */
+
+  --measure: 68ch;      /* max line length for long-form reading */
+  --container: 72rem;   /* 1152px content container */
+
+  /* ---- Radii (subtle, never pill-y on containers) ------------------ */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-full: 999px; /* only for dots, knobs, badges */
+
+  /* ---- Border widths ----------------------------------------------- */
+  --border-hairline: 1px;
+  --border-strong-w: 1.5px;
+  --border-focus:    2px;
+
+  /* ---- Elevation — soft, low-alpha, navy-tinted (no hard drop shadows) */
+  --shadow-xs: 0 1px 2px rgba(22, 24, 29, 0.04);
+  --shadow-sm: 0 1px 3px rgba(22, 24, 29, 0.06), 0 1px 2px rgba(22, 24, 29, 0.04);
+  --shadow-md: 0 4px 12px rgba(22, 24, 29, 0.07), 0 2px 4px rgba(22, 24, 29, 0.04);
+  --shadow-lg: 0 12px 32px rgba(22, 24, 29, 0.10), 0 4px 8px rgba(22, 24, 29, 0.05);
+  --ring-inset: inset 0 0 0 1px var(--border); /* hairline framing */
+
+  /* ---- Motion — restrained, respects reduced-motion ---------------- */
+  --dur-instant: 90ms;
+  --dur-fast:    160ms;  /* hovers, small state changes */
+  --dur-base:    240ms;  /* default enter/exit */
+  --dur-slow:    420ms;  /* gauge sweep, larger reveals */
+  --dur-story:   640ms;  /* scroll-story beats */
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);     /* general */
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);  /* settle-in */
+  --ease-exit:     cubic-bezier(0.4, 0, 1, 1);      /* leave */
+  --ease-gauge:    cubic-bezier(0.34, 1.2, 0.64, 1); /* gentle overshoot for the needle */
+
+  /* ---- Layering ---------------------------------------------------- */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;   /* nav, disclaimer banner */
+  --z-overlay: 1000; /* dialog, tooltip */
+
+  color-scheme: light;
+}
+
+/* =====================================================================
+   DARK MODE
+   Applies on OS preference, unless a manual theme is set. The manual
+   [data-theme] override below has higher specificity and wins.
+   ===================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-base:     #0E1117;
+    --c-surface:  #161B22;
+    --c-raised:   #1C232E;
+    --c-hairline: #283040;
+    --c-ink:      #E8EAED;
+    --c-muted:    #9AA2AD;
+    --c-teal:     #46A89B;
+    --c-teal-text:#46A89B; /* brighter teal already AA on dark base */
+    --c-amber:    #D69A4E;
+    --c-coral:    #D2725E;
+
+    --bg:            var(--c-base);
+    --bg-surface:    var(--c-surface);
+    --bg-subtle:     var(--c-raised);
+    --border:        var(--c-hairline);
+    --border-strong: #3A465A;
+    --text:          var(--c-ink);
+    --text-muted:    var(--c-muted);
+    --text-onprimary:#0E1117;
+    --accent:        var(--c-teal);
+    --accent-text:   var(--c-teal-text);
+    --primary:       #4C6190;  /* lifted navy so it reads on dark + carries white text */
+    --primary-hover: #5C73A8;
+    --focus-ring:    #7CA0F0;
+    --danger-text:   #E08B76;
+
+    --gauge-low:   var(--c-teal);
+    --gauge-mid:   var(--c-amber);
+    --gauge-high:  var(--c-coral);
+    --gauge-track: #283040;
+
+    /* Shadows are near-invisible on dark; lean on borders + raised bg */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.40);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.50);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+
+    color-scheme: dark;
+  }
+}
+
+/* Manual override (toggle). Mirrors the dark block; wins over OS pref. */
+:root[data-theme="dark"] {
+  --c-base:     #0E1117;
+  --c-surface:  #161B22;
+  --c-raised:   #1C232E;
+  --c-hairline: #283040;
+  --c-ink:      #E8EAED;
+  --c-muted:    #9AA2AD;
+  --c-teal:     #46A89B;
+  --c-teal-text:#46A89B;
+  --c-amber:    #D69A4E;
+  --c-coral:    #D2725E;
+
+  --bg:            var(--c-base);
+  --bg-surface:    var(--c-surface);
+  --bg-subtle:     var(--c-raised);
+  --border:        var(--c-hairline);
+  --border-strong: #3A465A;
+  --text:          var(--c-ink);
+  --text-muted:    var(--c-muted);
+  --text-onprimary:#0E1117;
+  --accent:        var(--c-teal);
+  --accent-text:   var(--c-teal-text);
+  --primary:       #4C6190;
+  --primary-hover: #5C73A8;
+  --focus-ring:    #7CA0F0;
+  --danger-text:   #E08B76;
+
+  --gauge-low:   var(--c-teal);
+  --gauge-mid:   var(--c-amber);
+  --gauge-high:  var(--c-coral);
+  --gauge-track: #283040;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.50);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}
+
+/* Reduced motion: collapse durations everywhere that uses the tokens. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms;
+    --dur-fast:    0ms;
+    --dur-base:    0ms;
+    --dur-slow:    0ms;
+    --dur-story:   0ms;
+  }
+}

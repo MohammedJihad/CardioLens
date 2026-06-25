@@ -1,0 +1,26 @@
+{
+  "best_model": "Random Forest",
+  "dataset": {
+    "rows": 302,
+    "test_rows": 61,
+    "disease_rate": 0.45695364238410596
+  },
+  "test_metrics": {
+    "accuracy": 0.7868852459016393,
+    "balanced_accuracy": 0.7813852813852814,
+    "precision": 0.8,
+    "recall_sensitivity": 0.7142857142857143,
+    "specificity": 0.8484848484848485,
+    "f1": 0.7547169811320755,
+    "roc_auc": 0.8917748917748918,
+    "pr_auc": 0.8530471349217632,
+    "log_loss": 0.42468370248579546,
+    "brier_score": 0.13706693690256924,
+    "confusion_matrix": {
+      "tn": 28,
+      "fp": 5,
+      "fn": 8,
+      "tp": 20
+    }
+  }
+}

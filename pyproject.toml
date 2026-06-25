@@ -1,0 +1,15 @@
+[project]
+name = "heart-disease-ml"
+version = "0.2.0"
+description = "Reproducible, clinically-aware heart-disease risk-screening ML system (educational)."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+# Ensures `pytest -q` resolves `import src...` from the repo root without
+# requiring PYTHONPATH=. (pytest >= 7).
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100

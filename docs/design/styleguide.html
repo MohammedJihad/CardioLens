@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CardioLens — Design Styleguide (Phase A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============ Tokens (mirror of tokens.css — kept inline so this file
+   opens standalone with no build) ============ */
+:root{
+  --c-base:#FAFAF7; --c-surface:#FFFFFF; --c-subtle:#F2F1EC; --c-hairline:#E4E2DA;
+  --c-ink:#16181D; --c-muted:#5B6068; --c-primary:#1E2A44; --c-primary-hover:#2A3A5C;
+  --c-teal:#2F8F83; --c-teal-text:#277A6F; --c-amber:#C98A3B; --c-coral:#C2614E; --c-error:#B4452F;
+  --bg:var(--c-base); --bg-surface:var(--c-surface); --bg-subtle:var(--c-subtle);
+  --border:var(--c-hairline); --border-strong:#D5D3C9; --text:var(--c-ink); --text-muted:var(--c-muted);
+  --text-onprimary:#FAFAF7; --accent:var(--c-teal); --accent-text:var(--c-teal-text);
+  --primary:var(--c-primary); --primary-hover:var(--c-primary-hover); --focus-ring:#3E63B8; --danger-text:var(--c-error);
+  --gauge-low:var(--c-teal); --gauge-mid:var(--c-amber); --gauge-high:var(--c-coral); --gauge-track:var(--c-hairline);
+  --font-display:"Newsreader",Georgia,serif;
+  --font-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --shadow-xs:0 1px 2px rgba(22,24,29,.04);
+  --shadow-sm:0 1px 3px rgba(22,24,29,.06),0 1px 2px rgba(22,24,29,.04);
+  --shadow-md:0 4px 12px rgba(22,24,29,.07),0 2px 4px rgba(22,24,29,.04);
+  --shadow-lg:0 12px 32px rgba(22,24,29,.10),0 4px 8px rgba(22,24,29,.05);
+  --radius-xs:4px; --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-full:999px;
+  --dur-fast:160ms; --dur-base:240ms; --dur-slow:420ms;
+  --ease-standard:cubic-bezier(.2,0,0,1); --ease-entrance:cubic-bezier(.16,1,.3,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --c-base:#0E1117; --c-surface:#161B22; --c-raised:#1C232E; --c-hairline:#283040;
+    --c-ink:#E8EAED; --c-muted:#9AA2AD; --c-teal:#46A89B; --c-teal-text:#46A89B;
+    --c-amber:#D69A4E; --c-coral:#D2725E;
+    --bg:var(--c-base); --bg-surface:var(--c-surface); --bg-subtle:var(--c-raised);
+    --border:var(--c-hairline); --border-strong:#3A465A; --text:var(--c-ink); --text-muted:var(--c-muted);
+    --text-onprimary:#0E1117; --accent:var(--c-teal); --accent-text:var(--c-teal-text);
+    --primary:#4C6190; --primary-hover:#5C73A8; --focus-ring:#7CA0F0; --danger-text:#E08B76;
+    --gauge-track:#283040;
+    --shadow-xs:0 1px 2px rgba(0,0,0,.40); --shadow-sm:0 1px 3px rgba(0,0,0,.45);
+    --shadow-md:0 4px 14px rgba(0,0,0,.50); --shadow-lg:0 16px 40px rgba(0,0,0,.55);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --c-base:#0E1117; --c-surface:#161B22; --c-raised:#1C232E; --c-hairline:#283040;
+  --c-ink:#E8EAED; --c-muted:#9AA2AD; --c-teal:#46A89B; --c-teal-text:#46A89B;
+  --c-amber:#D69A4E; --c-coral:#D2725E;
+  --bg:var(--c-base); --bg-surface:var(--c-surface); --bg-subtle:var(--c-raised);
+  --border:var(--c-hairline); --border-strong:#3A465A; --text:var(--c-ink); --text-muted:var(--c-muted);
+  --text-onprimary:#0E1117; --accent:var(--c-teal); --accent-text:var(--c-teal-text);
+  --primary:#4C6190; --primary-hover:#5C73A8; --focus-ring:#7CA0F0; --danger-text:#E08B76;
+  --gauge-track:#283040;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.40); --shadow-sm:0 1px 3px rgba(0,0,0,.45);
+  --shadow-md:0 4px 14px rgba(0,0,0,.50); --shadow-lg:0 16px 40px rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+/* ============ Base ============ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:var(--font-body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  transition:background var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard);
+}
+:focus-visible{outline:2px solid var(--focus-ring); outline-offset:2px; border-radius:3px}
+a{color:var(--accent-text); text-underline-offset:3px}
+.wrap{max-width:980px; margin:0 auto; padding:0 24px}
+.mono{font-family:var(--font-mono)}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--accent-text); margin:0 0 10px}
+h1,h2,h3,h4{font-family:var(--font-display); font-weight:500; letter-spacing:-.02em; margin:0}
+.section{padding:64px 0; border-top:1px solid var(--border)}
+.section > .wrap > h2{font-size:40px; line-height:1.08; margin-bottom:6px}
+.section .lead{color:var(--text-muted); font-size:19px; max-width:60ch; margin:0 0 36px}
+.caveat{font-family:var(--font-mono); font-size:11px; color:var(--text-muted); margin-top:10px}
+
+/* ============ Sticky chrome ============ */
+.bar{position:sticky; top:0; z-index:100; backdrop-filter:saturate(1.1) blur(8px);
+  background:color-mix(in srgb, var(--bg-surface) 86%, transparent);
+  border-bottom:1px solid var(--border)}
+.bar .wrap{display:flex; align-items:center; justify-content:space-between; height:60px}
+.wordmark{font-family:var(--font-mono); font-weight:600; letter-spacing:.02em; font-size:15px}
+.wordmark b{color:var(--accent-text)}
+.toggle{font-family:var(--font-mono); font-size:12px; cursor:pointer;
+  background:var(--bg-subtle); color:var(--text); border:1px solid var(--border);
+  border-radius:999px; padding:7px 14px; min-height:34px; transition:background var(--dur-fast)}
+.toggle:hover{background:var(--border)}
+.disclaimer{background:var(--bg-subtle); border-bottom:1px solid var(--border)}
+.disclaimer .wrap{padding-top:9px; padding-bottom:9px; display:flex; gap:10px; align-items:baseline}
+.disclaimer .tag{font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--accent-text); white-space:nowrap}
+.disclaimer .txt{font-size:13px; color:var(--text-muted)}
+
+/* ============ Hero ============ */
+.hero{position:relative; overflow:hidden; padding:84px 0 72px; border-top:none}
+.hero h1{font-size:clamp(40px,6vw,68px); line-height:1.05}
+.hero p{font-size:19px; color:var(--text-muted); max-width:54ch; margin:18px 0 0}
+.hero .cta{display:flex; gap:12px; margin-top:30px; flex-wrap:wrap}
+.hero .latticewrap{position:absolute; inset:0; z-index:-1; opacity:.5;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 78%); mask-image:linear-gradient(180deg,#000 0%,transparent 78%)}
+
+/* ============ Buttons ============ */
+.btn{font-family:var(--font-body); font-size:15px; font-weight:600; cursor:pointer;
+  border-radius:8px; padding:12px 20px; min-height:44px; display:inline-flex; align-items:center;
+  border:1px solid transparent; transition:background var(--dur-fast) var(--ease-standard), transform var(--dur-fast)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--primary); color:var(--text-onprimary)}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-secondary{background:var(--bg-surface); color:var(--text); border-color:var(--border)}
+.btn-secondary:hover{background:var(--bg-subtle)}
+.btn-ghost{background:transparent; color:var(--text)}
+.btn-ghost:hover{background:var(--bg-subtle)}
+
+/* ============ Swatches ============ */
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px}
+.sw{border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--bg-surface); box-shadow:var(--shadow-xs)}
+.sw .chip{height:64px}
+.sw .meta{padding:10px 12px}
+.sw .name{font-size:13px; font-weight:600}
+.sw .hex{font-family:var(--font-mono); font-size:12px; color:var(--text-muted)}
+.sw .role{font-size:11px; color:var(--text-muted); margin-top:3px}
+
+/* ============ Type scale ============ */
+.typerow{display:flex; align-items:baseline; gap:18px; padding:14px 0; border-bottom:1px solid var(--border)}
+.typerow .label{font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:130px; flex:none}
+.specimen-display{font-family:var(--font-display)}
+.specimen-body{font-family:var(--font-body)}
+.specimen-mono{font-family:var(--font-mono)}
+
+/* ============ Spacing ============ */
+.spacerow{display:flex; align-items:center; gap:16px; margin-bottom:10px}
+.spacerow .bar2{height:16px; background:var(--accent); border-radius:3px; opacity:.85}
+.spacerow .lbl{font-family:var(--font-mono); font-size:12px; color:var(--text-muted); width:120px}
+
+/* ============ Cards / grid ============ */
+.grid{display:grid; gap:16px}
+.cols-2{grid-template-columns:repeat(2,1fr)}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:760px){.cols-2,.cols-3,.cols-4{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.cols-2,.cols-3,.cols-4{grid-template-columns:1fr}}
+.card{background:var(--bg-surface); border:1px solid var(--border); border-radius:12px;
+  padding:20px; box-shadow:var(--shadow-sm)}
+.metric .k{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-text)}
+.metric .v{font-family:var(--font-mono); font-size:34px; font-variant-numeric:tabular-nums; margin:8px 0 2px; line-height:1}
+.metric .s{font-size:13px; color:var(--text-muted)}
+
+/* ============ Gauge ============ */
+.gaugecard{display:flex; gap:28px; flex-wrap:wrap}
+.gaugeblock{background:var(--bg-surface); border:1px solid var(--border); border-radius:16px;
+  padding:24px; box-shadow:var(--shadow-md); flex:1; min-width:280px; text-align:center}
+.gaugeblock .glabel{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted)}
+.gaugeblock .gval{font-family:var(--font-mono); font-size:48px; font-variant-numeric:tabular-nums; line-height:1; margin:6px 0 2px}
+.gaugeblock .gsub{font-size:12px; color:var(--text-muted)}
+.gaugeblock .gband{display:inline-block; margin-top:12px; font-family:var(--font-mono); font-size:12px;
+  background:var(--bg-subtle); border:1px solid var(--border); border-radius:999px; padding:5px 12px}
+.gaugeblock .gcap{font-size:11px; color:var(--text-muted); margin-top:14px; max-width:34ch; margin-left:auto; margin-right:auto; line-height:1.5}
+
+/* ============ Factor bars ============ */
+.factor{display:grid; grid-template-columns:140px 1fr auto; align-items:center; gap:12px; padding:7px 0}
+.factor .fname{font-size:14px}
+.factor .ftrack{height:10px; background:var(--bg-subtle); border-radius:999px; position:relative; overflow:hidden}
+.factor .ffill{position:absolute; top:0; bottom:0; border-radius:999px}
+.factor.up .ffill{right:50%; background:var(--gauge-high)}
+.factor.down .ffill{left:50%; background:var(--gauge-low)}
+.factor .fval{font-family:var(--font-mono); font-size:12px; color:var(--text-muted)}
+.factor .ftrack::before{content:""; position:absolute; left:50%; top:-3px; bottom:-3px; width:1px; background:var(--border-strong)}
+
+/* ============ Badges / plain box / can-cannot ============ */
+.badge{font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; padding:4px 10px;
+  border-radius:999px; background:var(--bg-subtle); border:1px solid var(--border); display:inline-block}
+.badge.accent{color:var(--accent-text); border-color:color-mix(in srgb,var(--accent) 40%, var(--border))}
+.plainbox{background:var(--bg-subtle); border-left:1.5px solid var(--accent); border-radius:12px; padding:18px 20px}
+.plainbox h4{font-size:18px; margin-bottom:6px}
+.plainbox p{margin:0; color:var(--text-muted); font-size:15px}
+.cc h4{font-size:17px; margin-bottom:10px}
+.cc.can{border-left:2px solid var(--accent)}
+.cc.cannot{border-left:2px solid var(--text-muted)}
+.cc ul{margin:0; padding-left:18px; color:var(--text-muted); font-size:14px}
+.cc li{margin:6px 0}
+
+/* ============ a11y note ============ */
+.note{background:var(--bg-subtle); border:1px solid var(--border); border-radius:12px; padding:20px 22px}
+.note table{width:100%; border-collapse:collapse; font-size:13px; margin-top:10px}
+.note th,.note td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--border)}
+.note th{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); font-weight:500}
+.note td.pass{font-family:var(--font-mono); color:var(--accent-text)}
+.footer{padding:48px 0 64px; background:var(--bg-subtle); border-top:1px solid var(--border)}
+.footer .tag{font-family:var(--font-display); font-size:18px}
+.footer .small{font-size:13px; color:var(--text-muted); margin-top:8px}
+.tickrule{height:14px; background:
+  repeating-linear-gradient(90deg, var(--border-strong) 0 1px, transparent 1px 28px);
+  border-bottom:1px solid var(--border); opacity:.7; margin:0}
+</style>
+</head>
+<body>
+
+<!-- Skip link -->
+<a href="#main" class="btn btn-secondary" style="position:absolute;left:-9999px;top:8px"
+   onfocus="this.style.left='8px'" onblur="this.style.left='-9999px'">Skip to main content</a>
+
+<!-- Disclaimer banner -->
+<div class="disclaimer" role="note">
+  <div class="wrap">
+    <span class="tag">Educational ML demo</span>
+    <span class="txt">Not medical advice — a model score on historical public research data, not a medical verdict and not a clinical tool.</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="bar">
+  <div class="wrap">
+    <span class="wordmark">Cardio<b>Lens</b></span>
+    <button class="toggle" id="themeBtn" aria-label="Toggle light or dark theme">◐ Theme</button>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- Hero -->
+<header class="hero">
+  <div class="latticewrap" aria-hidden="true">
+    <svg width="100%" height="100%" viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid slice">
+      <g fill="none" stroke-width="1.5">
+        <path d="M120 420 A300 300 0 0 1 720 420" stroke="var(--gauge-low)" opacity=".5"/>
+        <path d="M200 420 A220 220 0 0 1 640 420" stroke="var(--gauge-mid)" opacity=".45"/>
+        <path d="M280 420 A140 140 0 0 1 560 420" stroke="var(--gauge-high)" opacity=".4"/>
+        <path d="M40 420 A380 380 0 0 1 800 420" stroke="var(--border-strong)" opacity=".6"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <p class="eyebrow">Educational ML demo</p>
+    <h1>A calibrated lens on a<br>heart-disease model.</h1>
+    <p>See how one frozen machine-learning model reads historical public research data — what it gets right, what it doesn't, and where its confidence quietly breaks down.</p>
+    <div class="cta">
+      <button class="btn btn-primary">Try the model</button>
+      <button class="btn btn-secondary">Read the results</button>
+    </div>
+    <p class="caveat">An educational demo. Not medical advice, not a medical verdict.</p>
+  </div>
+</header>
+
+<div class="tickrule" aria-hidden="true"></div>
+
+<!-- Palette -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Foundations</p>
+    <h2>Color palette</h2>
+    <p class="lead">Off-white and ink, deep navy-indigo primary, one muted teal accent. Amber and coral are reserved for the score-gauge scale only — never for alarm. Switch the theme (top right) to preview both modes.</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#FAFAF7"></div><div class="meta"><div class="name">Base</div><div class="hex">#FAFAF7</div><div class="role">page background</div></div></div>
+      <div class="sw"><div class="chip" style="background:#FFFFFF;border-bottom:1px solid var(--border)"></div><div class="meta"><div class="name">Surface</div><div class="hex">#FFFFFF</div><div class="role">cards, panels</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F2F1EC"></div><div class="meta"><div class="name">Subtle</div><div class="hex">#F2F1EC</div><div class="role">wells, hovers</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E4E2DA"></div><div class="meta"><div class="name">Hairline</div><div class="hex">#E4E2DA</div><div class="role">borders, rules</div></div></div>
+      <div class="sw"><div class="chip" style="background:#16181D"></div><div class="meta"><div class="name">Ink</div><div class="hex">#16181D</div><div class="role">primary text</div></div></div>
+      <div class="sw"><div class="chip" style="background:#5B6068"></div><div class="meta"><div class="name">Muted</div><div class="hex">#5B6068</div><div class="role">secondary text</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1E2A44"></div><div class="meta"><div class="name">Primary</div><div class="hex">#1E2A44</div><div class="role">navy — actions</div></div></div>
+      <div class="sw"><div class="chip" style="background:#2A3A5C"></div><div class="meta"><div class="name">Primary hover</div><div class="hex">#2A3A5C</div><div class="role">action hover</div></div></div>
+      <div class="sw"><div class="chip" style="background:#2F8F83"></div><div class="meta"><div class="name">Teal</div><div class="hex">#2F8F83</div><div class="role">accent (non-text)</div></div></div>
+      <div class="sw"><div class="chip" style="background:#277A6F"></div><div class="meta"><div class="name">Teal text</div><div class="hex">#277A6F</div><div class="role">AA link on white</div></div></div>
+      <div class="sw"><div class="chip" style="background:#C98A3B"></div><div class="meta"><div class="name">Amber</div><div class="hex">#C98A3B</div><div class="role">gauge mid only</div></div></div>
+      <div class="sw"><div class="chip" style="background:#C2614E"></div><div class="meta"><div class="name">Coral</div><div class="hex">#C2614E</div><div class="role">gauge high only</div></div></div>
+      <div class="sw"><div class="chip" style="background:#B4452F"></div><div class="meta"><div class="name">Error</div><div class="hex">#B4452F</div><div class="role">form errors only</div></div></div>
+    </div>
+    <p class="caveat">Dark-mode equivalents (base #0E1117, ink #E8EAED, teal #46A89B, …) are defined in tokens.css and shown live when you toggle the theme.</p>
+  </div>
+</section>
+
+<!-- Type -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Foundations</p>
+    <h2>Typography</h2>
+    <p class="lead">Newsreader (editorial serif) for display, Hanken Grotesk for body, IBM Plex Mono for data, labels, and the instrument readouts. Google Fonts only.</p>
+    <div class="typerow"><span class="label">Display / 68</span><span class="specimen-display" style="font-size:52px;letter-spacing:-.02em;line-height:1.05">Reading the model</span></div>
+    <div class="typerow"><span class="label">H2 / 40</span><span class="specimen-display" style="font-size:34px;letter-spacing:-.02em">What happened on unseen cohorts</span></div>
+    <div class="typerow"><span class="label">H4 / 24</span><span class="specimen-display" style="font-size:22px">Every score comes with its reasons</span></div>
+    <div class="typerow"><span class="label">Lead / 19</span><span class="specimen-body" style="font-size:19px;color:var(--text-muted)">A model score is a number; a decision needs a threshold.</span></div>
+    <div class="typerow"><span class="label">Body / 16</span><span class="specimen-body">Discrimination partially transfers; calibration does not — and that gap is the most important thing on the site.</span></div>
+    <div class="typerow"><span class="label">Mono label / 12</span><span class="specimen-mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text)">External validation</span></div>
+    <div class="typerow"><span class="label">Mono data / 16</span><span class="specimen-mono" style="font-variant-numeric:tabular-nums">ROC-AUC 0.892 · Brier 0.137 · n=61</span></div>
+  </div>
+</section>
+
+<!-- Spacing -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Foundations</p>
+    <h2>Spacing &amp; radii</h2>
+    <p class="lead">A 4px base with an 8px rhythm. Generous section gaps; subtle, never-pill radii on containers.</p>
+    <div style="margin-bottom:28px">
+      <div class="spacerow"><span class="lbl">space-1 · 4</span><span class="bar2" style="width:4px"></span></div>
+      <div class="spacerow"><span class="lbl">space-2 · 8</span><span class="bar2" style="width:8px"></span></div>
+      <div class="spacerow"><span class="lbl">space-4 · 16</span><span class="bar2" style="width:16px"></span></div>
+      <div class="spacerow"><span class="lbl">space-5 · 24</span><span class="bar2" style="width:24px"></span></div>
+      <div class="spacerow"><span class="lbl">space-6 · 32</span><span class="bar2" style="width:32px"></span></div>
+      <div class="spacerow"><span class="lbl">space-7 · 48</span><span class="bar2" style="width:48px"></span></div>
+      <div class="spacerow"><span class="lbl">space-8 · 64</span><span class="bar2" style="width:64px"></span></div>
+    </div>
+    <div class="grid cols-4">
+      <div class="card" style="border-radius:4px;text-align:center"><span class="mono" style="font-size:12px;color:var(--text-muted)">radius-xs · 4</span></div>
+      <div class="card" style="border-radius:8px;text-align:center"><span class="mono" style="font-size:12px;color:var(--text-muted)">radius-sm · 8</span></div>
+      <div class="card" style="border-radius:12px;text-align:center"><span class="mono" style="font-size:12px;color:var(--text-muted)">radius-md · 12</span></div>
+      <div class="card" style="border-radius:16px;text-align:center"><span class="mono" style="font-size:12px;color:var(--text-muted)">radius-lg · 16</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Gauge (signature) -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Signature element</p>
+    <h2>The model-score gauge</h2>
+    <p class="lead">The site's one bold device. A calibrated arc with a hairline tick scale; teal&nbsp;→&nbsp;amber&nbsp;→&nbsp;coral encodes the <em>magnitude</em> of the model score only — never a health verdict. Coral is deliberately calm, not alarm red.</p>
+    <div class="gaugecard">
+      <!-- low -->
+      <div class="gaugeblock">
+        <svg width="260" height="158" viewBox="0 0 400 230" role="img" aria-label="Model score gauge showing 0.18, a low-magnitude model score on research data. Below the threshold.">
+          <defs>
+            <linearGradient id="gA" x1="40" y1="0" x2="360" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="var(--gauge-low)"/><stop offset=".5" stop-color="var(--gauge-mid)"/><stop offset="1" stop-color="var(--gauge-high)"/>
+            </linearGradient>
+          </defs>
+          <path d="M40 200 A160 160 0 0 1 360 200" fill="none" stroke="var(--gauge-track)" stroke-width="16" stroke-linecap="round"/>
+          <path d="M40 200 A160 160 0 0 1 360 200" fill="none" stroke="url(#gA)" stroke-width="16" stroke-linecap="round" stroke-dasharray="90.5 502.7"/>
+          <g stroke="var(--border-strong)" stroke-width="2">
+            <line x1="32" y1="200" x2="20" y2="200"/><line x1="81" y1="81" x2="73" y2="73"/>
+            <line x1="200" y1="32" x2="200" y2="20"/><line x1="319" y1="81" x2="327" y2="73"/>
+            <line x1="368" y1="200" x2="380" y2="200"/>
+          </g>
+          <circle cx="64.8" cy="114.4" r="9" fill="var(--bg-surface)" stroke="var(--gauge-low)" stroke-width="3.5"/>
+        </svg>
+        <div class="glabel">Model score</div>
+        <div class="gval">0.18</div>
+        <div class="gsub">model-estimated probability on research data</div>
+        <div class="gband">Below the 0.20 threshold</div>
+        <p class="gcap">The gauge shows the size of the model score only — teal to coral is low to high magnitude, not a health verdict.</p>
+      </div>
+      <!-- high -->
+      <div class="gaugeblock">
+        <svg width="260" height="158" viewBox="0 0 400 230" role="img" aria-label="Model score gauge showing 0.74, a high-magnitude model score on research data. Above the threshold.">
+          <path d="M40 200 A160 160 0 0 1 360 200" fill="none" stroke="var(--gauge-track)" stroke-width="16" stroke-linecap="round"/>
+          <path d="M40 200 A160 160 0 0 1 360 200" fill="none" stroke="url(#gA)" stroke-width="16" stroke-linecap="round" stroke-dasharray="372 502.7"/>
+          <g stroke="var(--border-strong)" stroke-width="2">
+            <line x1="32" y1="200" x2="20" y2="200"/><line x1="81" y1="81" x2="73" y2="73"/>
+            <line x1="200" y1="32" x2="200" y2="20"/><line x1="319" y1="81" x2="327" y2="73"/>
+            <line x1="368" y1="200" x2="380" y2="200"/>
+          </g>
+          <circle cx="309.5" cy="83.3" r="9" fill="var(--bg-surface)" stroke="var(--gauge-high)" stroke-width="3.5"/>
+        </svg>
+        <div class="glabel">Model score</div>
+        <div class="gval">0.74</div>
+        <div class="gsub">model-estimated probability on research data</div>
+        <div class="gband">Above the 0.20 threshold</div>
+        <p class="gcap">A higher score means the input pattern looks more like the historical research patterns the model associates with heart disease in its training data.</p>
+      </div>
+    </div>
+    <p class="caveat">Model score on research data — not a statement about any person. Example values shown for layout; live values come from the model on /try.</p>
+  </div>
+</section>
+
+<!-- Components -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Components</p>
+    <h2>Core components</h2>
+    <p class="lead">A sample of the kit: metric cards, the model-based explanation factor bars, badges, the plain-language box, and the can/cannot honesty cards.</p>
+
+    <h4 style="font-size:16px;margin:8px 0 14px;color:var(--text-muted)" class="mono">Metric cards</h4>
+    <div class="grid cols-4" style="margin-bottom:36px">
+      <div class="card metric"><div class="k">ROC-AUC</div><div class="v">0.892</div><div class="s">ranking ability</div></div>
+      <div class="card metric"><div class="k">Sensitivity</div><div class="v">0.714</div><div class="s">true-positive rate</div></div>
+      <div class="card metric"><div class="k">Specificity</div><div class="v">0.848</div><div class="s">true-negative rate</div></div>
+      <div class="card metric"><div class="k">Brier</div><div class="v">0.137</div><div class="s">calibration (lower better)</div></div>
+    </div>
+
+    <h4 style="font-size:16px;margin:8px 0 14px;color:var(--text-muted)" class="mono">Factor bars — model-based explanation</h4>
+    <div class="card" style="margin-bottom:36px">
+      <div class="factor up"><span class="fname">Vessel count</span><span class="ftrack"><span class="ffill" style="width:34%"></span></span><span class="fval">pushed up</span></div>
+      <div class="factor up"><span class="fname">Chest-pain type</span><span class="ftrack"><span class="ffill" style="width:24%"></span></span><span class="fval">pushed up</span></div>
+      <div class="factor down"><span class="fname">Max heart rate</span><span class="ftrack"><span class="ffill" style="width:28%"></span></span><span class="fval">pushed down</span></div>
+      <div class="factor down"><span class="fname">ST depression</span><span class="ftrack"><span class="ffill" style="width:16%"></span></span><span class="fval">pushed down</span></div>
+      <p class="caveat">Within this model, these inputs pushed the score up or down. Not causal — not medical advice.</p>
+    </div>
+
+    <h4 style="font-size:16px;margin:8px 0 14px;color:var(--text-muted)" class="mono">Badges</h4>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px">
+      <span class="badge accent">Above threshold</span>
+      <span class="badge">Internal test</span>
+      <span class="badge">External cohort</span>
+      <span class="badge">n = 61</span>
+    </div>
+
+    <h4 style="font-size:16px;margin:8px 0 14px;color:var(--text-muted)" class="mono">Plain-language box</h4>
+    <div class="plainbox" style="margin-bottom:36px">
+      <h4>What this means</h4>
+      <p>A higher model score means this input pattern looks more like the historical research patterns the model associates with heart disease in its training data. It does not describe you. To understand your own health, talk to a qualified clinician.</p>
+    </div>
+
+    <h4 style="font-size:16px;margin:8px 0 14px;color:var(--text-muted)" class="mono">Can / cannot cards</h4>
+    <div class="grid cols-2" style="margin-bottom:36px">
+      <div class="card cc can"><h4>What it can do</h4><ul>
+        <li>Show how one frozen model scores research-style input patterns.</li>
+        <li>Explain which inputs moved a given score, within the model.</li>
+        <li>Demonstrate that performance drops on unseen cohorts.</li>
+      </ul></div>
+      <div class="card cc cannot"><h4>What it cannot do</h4><ul>
+        <li>Make any claim about a real person's health.</li>
+        <li>Give medical advice or a clinical recommendation.</li>
+        <li>Promise its probabilities hold outside this research data.</li>
+      </ul></div>
+    </div>
+
+    <h4 style="font-size:16px;margin:8px 0 14px;color:var(--text-muted)" class="mono">Buttons</h4>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-primary">See the model score</button>
+      <button class="btn btn-secondary">Read the results</button>
+      <button class="btn btn-ghost">View the code on GitHub</button>
+    </div>
+  </div>
+</section>
+
+<!-- Accessibility -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Quality floor</p>
+    <h2>Accessibility &amp; contrast</h2>
+    <p class="lead">Body text meets WCAG AA in both modes. Teal text on white uses #277A6F (not the #2F8F83 accent) precisely so links and labels clear the 4.5:1 bar; the brighter accent is used only for non-text marks where 3:1 applies.</p>
+    <div class="note">
+      <strong>Light-mode contrast (approx. ratios vs the surface they sit on):</strong>
+      <table>
+        <thead><tr><th>Pair</th><th>Ratio</th><th>WCAG AA</th></tr></thead>
+        <tbody>
+          <tr><td>Ink #16181D on base #FAFAF7</td><td class="mono">~15.8:1</td><td class="pass">Pass (text)</td></tr>
+          <tr><td>Muted #5B6068 on base #FAFAF7</td><td class="mono">~5.9:1</td><td class="pass">Pass (text)</td></tr>
+          <tr><td>Teal-text #277A6F on white</td><td class="mono">~4.6:1</td><td class="pass">Pass (text)</td></tr>
+          <tr><td>White on primary #1E2A44</td><td class="mono">~13.9:1</td><td class="pass">Pass (text)</td></tr>
+          <tr><td>Teal #2F8F83 as UI mark on white</td><td class="mono">~3.3:1</td><td class="pass">Pass (non-text)</td></tr>
+        </tbody>
+      </table>
+      <p class="caveat">Dark mode mirrors this: ink #E8EAED (~14:1) and muted #9AA2AD (~7:1) on base #0E1117; teal #46A89B is text-safe on the dark base. Focus rings use a dedicated #3E63B8 / #7CA0F0 that clears 3:1 on every background. Reduced motion is honored; targets are ≥44px; color is never the only signal.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="tag">A calibrated lens on heart-disease research data.</div>
+    <p class="small">Every number on this site comes from the project's research reports. Inputs you try are sent to the model to compute a score and are not stored.</p>
+    <p class="small mono">CardioLens — educational machine-learning case study. Not medical advice.</p>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle: default to OS, override persists for this preview only.
+  (function(){
+    var root=document.documentElement, btn=document.getElementById('themeBtn');
+    function cur(){ return root.getAttribute('data-theme') ||
+      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'); }
+    btn.addEventListener('click',function(){
+      var next = cur()==='dark' ? 'light':'dark';
+      root.setAttribute('data-theme', next);
+      btn.textContent = next==='dark' ? '☀ Light' : '☾ Dark';
+    });
+  })();
+</script>
+</body>
+</html>

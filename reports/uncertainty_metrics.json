@@ -1,0 +1,67 @@
+{
+  "best_model": "Random Forest",
+  "n_test": 61,
+  "n_bootstrap": 2000,
+  "metrics": {
+    "accuracy": {
+      "point": 0.7869,
+      "ci_low": 0.6721,
+      "ci_high": 0.8852,
+      "n_valid": 2000
+    },
+    "balanced_accuracy": {
+      "point": 0.7814,
+      "ci_low": 0.673,
+      "ci_high": 0.8802,
+      "n_valid": 2000
+    },
+    "precision": {
+      "point": 0.8,
+      "ci_low": 0.6314,
+      "ci_high": 0.9524,
+      "n_valid": 2000
+    },
+    "recall_sensitivity": {
+      "point": 0.7143,
+      "ci_low": 0.5417,
+      "ci_high": 0.8788,
+      "n_valid": 2000
+    },
+    "specificity": {
+      "point": 0.8485,
+      "ci_low": 0.7097,
+      "ci_high": 0.9643,
+      "n_valid": 2000
+    },
+    "f1": {
+      "point": 0.7547,
+      "ci_low": 0.6087,
+      "ci_high": 0.8696,
+      "n_valid": 2000
+    },
+    "brier_score": {
+      "point": 0.1371,
+      "ci_low": 0.0879,
+      "ci_high": 0.1917,
+      "n_valid": 2000
+    },
+    "log_loss": {
+      "point": 0.4247,
+      "ci_low": 0.2886,
+      "ci_high": 0.5941,
+      "n_valid": 2000
+    },
+    "roc_auc": {
+      "point": 0.8918,
+      "ci_low": 0.805,
+      "ci_high": 0.9612,
+      "n_valid": 2000
+    },
+    "pr_auc": {
+      "point": 0.853,
+      "ci_low": 0.7114,
+      "ci_high": 0.9614,
+      "n_valid": 2000
+    }
+  }
+}

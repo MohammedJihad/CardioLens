@@ -1,0 +1,16 @@
+# Render blueprint for the CardioLens educational API.
+# In Render: New + → "Blueprint" → pick this repo. Then set FRONTEND_ORIGIN
+# (your Vercel URL) in the service's Environment tab after the first deploy.
+services:
+  - type: web
+    name: cardiolens-api
+    runtime: python
+    plan: free            # free tier sleeps after ~15 min idle (the /try page has a "waking up" state)
+    buildCommand: "pip install -r api/requirements.txt && python -m src.data"
+    startCommand: "uvicorn api.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
+      - key: FRONTEND_ORIGIN
+        sync: false       # set to your Vercel site URL (e.g. https://cardiolens.vercel.app)

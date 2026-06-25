@@ -1,0 +1,87 @@
+{
+  "generated_from": [
+    "reports/metrics.json",
+    "reports/threshold_test_evaluation.csv",
+    "reports/external_validation_metrics.csv"
+  ],
+  "year": 2026,
+  "note": "Values copied verbatim from the frozen research reports and re-rounded for display only \u2014 nothing here is recomputed. Educational ML demo; model scores on historical public research data, not medical advice.",
+  "metrics": {
+    "roc_auc": 0.892,
+    "pr_auc": 0.853,
+    "sensitivity": 0.714,
+    "specificity": 0.848,
+    "f1": 0.755,
+    "brier": 0.137,
+    "n_test": 61,
+    "confusion": {
+      "tp": 20,
+      "fp": 5,
+      "tn": 28,
+      "fn": 8
+    }
+  },
+  "thresholds": {
+    "selected": 0.2,
+    "sens_selected": 1.0,
+    "spec_selected": 0.606,
+    "fn_selected": 0,
+    "tp": 28,
+    "fp": 13,
+    "tn": 20
+  },
+  "external": {
+    "n_cohorts": 3,
+    "missing_range": "96-99%",
+    "missing_range_ca": "96-99%",
+    "missing_range_thal": "42-90%",
+    "hungarian": {
+      "label": "Hungarian",
+      "n": 294,
+      "disease_rate": 0.361,
+      "roc_auc": 0.857,
+      "roc_auc_ci": [
+        0.81,
+        0.902
+      ],
+      "pr_auc": 0.753,
+      "brier": 0.178,
+      "sens_at_0.2": 0.887,
+      "spec_at_0.2": 0.638,
+      "ca_missing_pct": 99.0,
+      "thal_missing_pct": 90.0
+    },
+    "va": {
+      "label": "VA Long Beach",
+      "n": 200,
+      "disease_rate": 0.745,
+      "roc_auc": 0.672,
+      "roc_auc_ci": [
+        0.581,
+        0.754
+      ],
+      "pr_auc": 0.83,
+      "brier": 0.339,
+      "sens_at_0.2": 0.866,
+      "spec_at_0.2": 0.314,
+      "ca_missing_pct": 99.0,
+      "thal_missing_pct": 83.0
+    },
+    "switzerland": {
+      "label": "Switzerland",
+      "n": 123,
+      "disease_rate": 0.935,
+      "roc_auc": 0.81,
+      "roc_auc_ci": [
+        0.623,
+        0.962
+      ],
+      "pr_auc": 0.981,
+      "brier": 0.337,
+      "sens_at_0.2": 0.974,
+      "spec_at_0.2": 0.375,
+      "ca_missing_pct": 96.0,
+      "thal_missing_pct": 42.0
+    }
+  }
+}

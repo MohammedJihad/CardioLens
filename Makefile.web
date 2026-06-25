@@ -1,0 +1,9 @@
+# Website (additive) task runner — kept separate from the frozen root Makefile.
+# Usage:  make -f Makefile.web reports-summary
+# Or, to expose it from the main Makefile, add `include Makefile.web` there yourself.
+PY ?= python
+
+.PHONY: reports-summary
+
+reports-summary:   ## snapshot reports/ -> web-data/reports-summary.json (no recompute)
+	$(PY) scripts/export_reports_summary.py

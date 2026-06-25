@@ -1,0 +1,4 @@
+cohort,n,disease_rate,ca_missing_%,thal_missing_%,roc_auc,roc_auc_ci,pr_auc,brier,sensitivity@0.2,specificity@0.2
+Hungarian,294,0.361,99.0,90.0,0.857,"[0.81, 0.902]",0.753,0.178,0.887,0.638
+VA Long Beach,200,0.745,99.0,83.0,0.672,"[0.581, 0.754]",0.83,0.339,0.866,0.314
+Switzerland,123,0.935,96.0,42.0,0.81,"[0.623, 0.962]",0.981,0.337,0.974,0.375

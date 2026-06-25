@@ -1,0 +1,11 @@
+# Minimal runtime deps for deploying the CardioLens API (api/main.py).
+# Heavier dev/training deps (shap, seaborn, streamlit, pytest) are NOT needed to serve.
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pandas>=2.0
+numpy>=1.24
+joblib>=1.3
+# IMPORTANT: pin scikit-learn to the SAME version that trained models/best_model.joblib.
+# Find it in your training env:  python -c "import sklearn; print(sklearn.__version__)"
+# A mismatch can warn or fail when unpickling the model.
+scikit-learn>=1.3,<1.7
