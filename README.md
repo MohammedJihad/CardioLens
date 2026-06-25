@@ -1,137 +1,180 @@
-﻿# CardioLens ًں«€ â€” Educational Heart-Disease ML Demo
+# CardioLens - Educational Heart-Disease ML Demo
 
-**A calibrated lens on heart-disease research data.** A reproducible machine-learning
-study on the public UCI Cleveland dataset, wrapped in a premium public website that
-shows the evaluation *honestly* â€” what the model gets right, where it transfers, and
-where its confidence quietly breaks down.
+A calibrated lens on heart-disease research data.
 
-> âڑ ï¸ڈ **Not medical advice.** Every figure is a *model score on historical public
-> research data* â€” not a medical verdict and not a clinical tool. Trained on a small,
-> decades-old, single-centre dataset with **no clinical validation**.
+CardioLens is a responsible machine-learning portfolio project built on the public UCI Cleveland heart-disease dataset. It combines a reproducible ML study with a premium public website that explains the evaluation honestly: what the model gets right, where it transfers, and where its confidence breaks down.
 
-<!-- After deploying (see docs/DEPLOYMENT.md), fill these in: -->
-**ًں”— Live demo:** `https://cardiolens-psi.vercel.app` آ· **API:** `https://cardiolens-api-uhpi.onrender.com/docs`
-**ًں“„ Project dossier (36-page PDF):** [`docs/final-dossier/CardioLens_Project_Dossier.pdf`](docs/final-dossier/CardioLens_Project_Dossier.pdf)
+Important: CardioLens is not medical advice. Every number is a model score on historical public research data. It is not a medical verdict, not a diagnostic tool, and not a clinical tool. The model was trained on a small, decades-old, single-centre dataset with no clinical validation.
+
+Live demo: https://cardiolens-psi.vercel.app
+
+API docs: https://cardiolens-api-uhpi.onrender.com/docs
+
+Project dossier: docs/final-dossier/CardioLens_Project_Dossier.pdf
 
 ---
 
 ## What this is
 
-Two halves of one project:
+CardioLens has two parts.
 
-1. **The science** â€” a leakage-free pipeline that cleans the data, fixes a known
-   target-label inversion, compares models under stratified cross-validation,
-   calibrates the best one, and evaluates it for discrimination, calibration,
-   uncertainty, explainability, subgroups, and **generalisation to three external
-   cohorts it never trained on.** This is **frozen** â€” the website never recomputes it.
-2. **The website (CardioLens)** â€” a Next.js + FastAPI experience that presents those
-   frozen numbers as honest, well-designed pages, plus one live page that scores a
-   single research-style input pattern and explains it.
+1. The science: a leakage-free machine-learning pipeline that cleans the data, fixes a known target-label inversion, compares models with stratified cross-validation, calibrates the selected model, and evaluates discrimination, calibration, uncertainty, explainability, subgroup performance, and external validation.
 
-## Headline results (generated, not hand-written)
+2. The website: a Next.js and FastAPI public demo that presents the frozen research outputs clearly, plus one live page where users can score a research-style input pattern and see a model-based explanation.
 
-**Model selection â€” stratified 5-fold CV (training split):**
+The scientific results are frozen. The website reads and presents those results; it does not recompute or change them.
 
-| model | CV ROC-AUC | CV recall |
-|---|---|---|
-| Logistic Regression | 0.906 آ± 0.040 | 0.800 |
-| SVM (RBF) | 0.907 آ± 0.042 | 0.818 |
-| **Random Forest** âœ… | **0.910 آ± 0.038** | 0.809 |
-| MLP | 0.859 آ± 0.063 | 0.773 |
-| Dummy (baseline) | 0.500 | 0.000 |
+---
 
-The top three are a statistical tie â€” on data this small, a simple interpretable
-model is as defensible as the ensemble.
+## Headline results
 
-**Held-out test (61 cases, threshold 0.50):** ROC-AUC **0.892**, PR-AUC 0.853,
-sensitivity 0.714, specificity 0.848, F1 0.755, Brier 0.137. Confusion: TP 20 آ·
-FN 8 (missed positive-label cases) آ· TN 28 آ· FP 5. Intervals are wide (e.g. ROC-AUC
-**0.892 [0.805, 0.961]**) because the test set is small.
+### Model selection - stratified 5-fold cross-validation
 
-**The central lesson â€” external validation:** the model (trained only on Cleveland)
-applied unchanged to three independent cohorts shows that **discrimination partially
-transfers, but calibration does not.**
+| Model | CV ROC-AUC | CV Recall |
+|---|---:|---:|
+| Logistic Regression | 0.906 +/- 0.040 | 0.800 |
+| SVM RBF | 0.907 +/- 0.042 | 0.818 |
+| Random Forest | 0.910 +/- 0.038 | 0.809 |
+| MLP | 0.859 +/- 0.063 | 0.773 |
+| Dummy baseline | 0.500 | 0.000 |
 
-| cohort | n | ROC-AUC | Brier | ca / thal missing |
+Random Forest was selected, but the top three models are statistically close. On a dataset this small, a simpler interpretable model is also defensible.
+
+### Held-out test performance
+
+Held-out test set: 61 cases. Default threshold: 0.50.
+
+| Metric | Value |
+|---|---:|
+| ROC-AUC | 0.892 |
+| PR-AUC | 0.853 |
+| Sensitivity | 0.714 |
+| Specificity | 0.848 |
+| F1 | 0.755 |
+| Brier score | 0.137 |
+
+Confusion matrix at threshold 0.50:
+
+| | Model above threshold | Model below threshold |
+|---|---:|---:|
+| Label positive | 20 TP | 8 FN |
+| Label negative | 5 FP | 28 TN |
+
+Because the test set is small, intervals are wide. For example, ROC-AUC is 0.892 with interval [0.805, 0.961].
+
+---
+
+## External validation
+
+The central lesson of CardioLens is that discrimination partially transfers, but calibration does not.
+
+The model was trained only on Cleveland and applied unchanged to three independent UCI cohorts.
+
+| Cohort | n | ROC-AUC | Brier | ca / thal missing |
 |---|---:|---:|---:|---:|
-| Cleveland (internal) | 61 | 0.892 | 0.137 | â€” |
+| Cleveland internal | 61 | 0.892 | 0.137 | not applicable |
 | Hungarian | 294 | 0.857 | 0.178 | 99% / 90% |
 | VA Long Beach | 200 | 0.672 | 0.339 | 99% / 83% |
 | Switzerland | 123 | 0.810 | 0.337 | 96% / 42% |
 
-The model's strongest features (`ca`, `thal`) are 42â€“99% missing externally, so its
-probabilities stop meaning what they say off the training cohort.
+The model's strongest features, ca and thal, are often missing externally. This is one reason the model's probability calibration degrades outside the original training cohort.
 
-## The website
+---
 
-Seven pages: **/** (thesis + honest stats) آ· **/try** (live model score + explanation)
-آ· **/results** (internal metrics) آ· **/external** (the stress test) آ· **/thresholds**
-(operating-point trade-off) آ· **/transparency** (full model + data cards) آ· **/about**
-(limits, privacy, when to see a clinician).
+## Website pages
 
-- **/try** sends one input pattern to the API, returns a **model score** + a gauge +
-  the top inputs that pushed the score up/down. It is **stateless**: no account, no
-  database, no analytics of inputs â€” scored and forgotten.
-- **Architecture:** six static pages render from a committed `reports-summary.json`
-  snapshot; only `/try` calls the FastAPI `/predict` endpoint, which loads the frozen
-  model. Additive-only backend; no metric ever changes.
+The website includes:
+
+- Home
+- Try the model
+- Results
+- External test
+- Thresholds
+- Transparency
+- About
+
+The Try page is stateless. Inputs are sent to the API to compute a score and are not stored. There is no account system, no database, and no analytics tracking user inputs.
+
+---
+
+## Architecture
+
+CardioLens uses:
+
+- Next.js frontend
+- FastAPI backend
+- Frozen model artifact
+- Static reports-summary JSON for public results pages
+- Render for the API deployment
+- Vercel for the frontend deployment
+
+Six pages are static and read from committed report snapshots. Only the Try page calls the FastAPI predict endpoint.
+
+---
 
 ## Project structure
 
-```
-heart-disease-ml/
-â”œâ”€â”€ src/               data آ· preprocess آ· train آ· evaluate آ· explain آ· predict   (FROZEN)
-â”œâ”€â”€ models/            best_model.joblib â€” calibrated Random Forest               (FROZEN)
-â”œâ”€â”€ reports/           metrics.json آ· model_card.md آ· external validation آ· â€¦     (FROZEN)
-â”œâ”€â”€ data/              raw/ (committed) + processed/ (regenerated)                 (FROZEN)
-â”œâ”€â”€ notebooks/ tests/  original course notebook آ· pytest suite                    (FROZEN)
-â”œâ”€â”€ api/               main.py â€” FastAPI service (+ requirements.txt)
-â”œâ”€â”€ frontend/          Next.js 14 site (App Router, TS, Tailwind)
-â”œâ”€â”€ web-data/          reports-summary.json (snapshot of the frozen reports)
-â”œâ”€â”€ docs/              design/ آ· WEBSITE_PLAN.md آ· DEPLOYMENT.md آ· final-dossier/
-â”œâ”€â”€ Dockerfile آ· render.yaml   deploy configs for the API
-â””â”€â”€ README.md آ· LICENSE
-```
+- src: data, preprocessing, training, evaluation, explanation
+- models: frozen calibrated model artifact
+- reports: metrics, model card, validation reports, figures
+- data: raw, external, and processed datasets
+- notebooks: original notebook
+- tests: test suite
+- api: FastAPI service
+- frontend: Next.js public website
+- web-data: reports-summary JSON snapshot
+- docs: design docs, deployment guide, final dossier
+- Dockerfile: API deployment container
+- render.yaml: Render deployment config
+
+---
 
 ## Run locally
 
-**Science / backend** (Python 3.12):
-```bash
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python -m src.data          # build processed dataset
-uvicorn api.main:app --reload    # API at http://127.0.0.1:8000  (docs at /docs)
-```
+Backend:
 
-**Frontend** (Node 18+):
-```bash
-cd frontend
-npm install
-cp .env.local.example .env.local      # points at http://127.0.0.1:8000 by default
-npm run dev                            # site at http://localhost:3000
-```
+1. Create a Python virtual environment.
+2. Install requirements.
+3. Run python -m src.data.
+4. Run uvicorn api.main:app --reload.
+5. Open http://127.0.0.1:8000/docs.
 
-Reproduce the full study with `python -m src.train | evaluate | explain` and `pytest -q`
-(a `Makefile` wraps these).
+Frontend:
 
-## Deploy it (so people can try it)
+1. cd frontend
+2. npm install
+3. copy .env.local.example to .env.local
+4. npm run dev
+5. Open http://localhost:3000.
 
-See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** for the full step-by-step: push to
-GitHub â†’ backend on **Render** (or Hugging Face Spaces) â†’ frontend on **Vercel** â†’
-wire the two with environment variables. Free tiers throughout; you enter every secret.
+---
+
+## Deployment
+
+API on Render:
+
+https://cardiolens-api-uhpi.onrender.com/docs
+
+Frontend on Vercel:
+
+https://cardiolens-psi.vercel.app
+
+For full deployment instructions, see docs/DEPLOYMENT.md.
+
+---
 
 ## Responsible use
 
-CardioLens shows how a frozen model behaves, where it transfers, and where it fails.
-It is **not medical advice, not a medical verdict, and not a clinical tool.** Wording
-across the site avoids "diagnosis / healthy / sick / you are safe"; results are framed
-as *model scores on research data*. For any concern about your own health, talk to a
-qualified clinician.
+CardioLens shows how a frozen machine-learning model behaves on historical public research data. It is not medical advice, not a medical verdict, and not a clinical tool.
 
-## License & data
+Results are framed as model scores on research data. For any real health concern, talk to a qualified clinician.
 
-Code released under the repository `LICENSE`. Dataset: UCI Heart Disease (Cleveland),
-DOI 10.24432/C52P4X, CC BY 4.0 â€” Janosi, Steinbrunn, Pfisterer, Detrano (1988).
+---
 
-*An educational machine-learning case study. Not medical advice.*
+## License and data
 
+Code is released under the repository license.
+
+Dataset: UCI Heart Disease Cleveland dataset, DOI 10.24432/C52P4X, CC BY 4.0.
+
+CardioLens is an educational machine-learning case study. It is not medical advice.
