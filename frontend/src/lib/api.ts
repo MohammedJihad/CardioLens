@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Minimal client for the FastAPI model service.
  *
  * - Base URL from NEXT_PUBLIC_API_BASE_URL (default http://127.0.0.1:8000).
@@ -41,7 +41,7 @@ export type PredictResult =
   | { ok: true; data: PredictionResponse }
   | { ok: false; kind: PredictErrorKind };
 
-const TIMEOUT_MS = 12000;
+const TIMEOUT_MS = 60000;
 
 export async function predict(record: PatientRecord): Promise<PredictResult> {
   const controller = new AbortController();
@@ -78,9 +78,10 @@ export const ERROR_COPY: Record<PredictErrorKind, string> = {
   validation:
     "Some fields need a valid value before the model can score this pattern.",
   unreachable:
-    "The model service is waking up or unavailable. The rest of the site still works — try again in a moment, or read the Results page meanwhile.",
+    "The model service is waking up or unavailable. The rest of the site still works â€” try again in a moment, or read the Results page meanwhile.",
   server:
     "The model couldn't score that pattern just now. Nothing was stored. Please try again.",
   timeout:
     "That took too long to score. Try again, or load a preset pattern.",
 };
+
